@@ -16,4 +16,6 @@ const urlSchema = new mongoose.Schema({
         require : true,
         unique : true
     }
-})
+},{timestamp : true})
+
+module.exports = mongoose.model("URL" , urlSchema)
