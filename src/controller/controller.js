@@ -1,5 +1,6 @@
 const shortId = require('shortid')
 const urlModel = require('../model/urlmodel')
+const validUrl = require("valid-url")
 
 const creatershorturl = async function(req,res){
     try {
@@ -12,7 +13,7 @@ const creatershorturl = async function(req,res){
             return res.status(400).send({ status: false, message: "please enter a valid long url" })
         }
 
-        let checkurl = await urlModel.find({longUrl : data.longUrl}).select({_id:0 , shortUrl:1 , urlCode:1})
+        let checkurl = await urlModel.findOne({longUrl : longUrl}).select({_id:0 , shortUrl:1 , urlCode:1})
         if(checkurl){ return res.status(400).send({message: "Already exist" , Data : checkurl})}
 
         const baseurl = 'http://localhost:3000'
@@ -35,7 +36,7 @@ const geturl = async function(req,res){
     let ShortenId = req.params.urlCode
     try{
         if(! shortId.isValid(ShortenId)) {return res.status(400).send("Please enter a valid Id")}
-        const searchUrl =  await urlModel.find({urlCode : ShortenId})
+        const searchUrl =  await urlModel.findOne({urlCode : ShortenId})
         if(!searchUrl) {return res.status(404).send("Resource not found")}
         else{
             res.status(302).redirect(searchUrl.longUrl)
