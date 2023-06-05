@@ -69,4 +69,4 @@ const geturl = async function(req,res){
     }
 }
 
-module.exports = {creatershorturl , geturl}
+module.exports = {creatershorturl , geturl,codeUrl}
